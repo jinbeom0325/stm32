@@ -36,4 +36,31 @@ GPIO 포트 출력 데이터 레지스터
 STM32F401RE 보드의 LED켜기
 기본 주소 + 오프셋 = 특정 레지스터 주소
 
+```c
+#include<stdint.h>
+
+int main(void)
+{
+  #기본주소 + 오프셋 
+	uint32_t *pClkCtrlReg =   (uint32_t*)0x40023830; #클럭
+	uint32_t *pPortDModeReg = (uint32_t*)0x40020C00; #모드
+	uint32_t *pPortDOutReg =  (uint32_t*)0x40020C14; #출력
+
+  # *pClkCtrlReg |= 0x08;와 같음
+	*pClkCtrlReg |= ( 1 << 3); 
+
+  # 비트 0인지 확인 0xFCFFFFFF;
+	*pPortDModeReg &= ~( 3 << 24);
+  # 0x01000000;
+	*pPortDModeReg |= ( 1 << 24);
+
+  # *pPortDOutReg |= 0x1000;
+	*pPortDOutReg |= ( 1 << 12);
+
+    while(1);
+}
+
+```
+
+
 
