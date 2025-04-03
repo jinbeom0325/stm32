@@ -2,7 +2,7 @@
 
 
 ## 001HelloWorld_semihosting
-
+***
 openOCD 디버거를 사용하기 위한 세팅
 
 Run Commands monitor arm semihosting enable 추가 
