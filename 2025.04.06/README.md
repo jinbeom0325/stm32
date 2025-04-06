@@ -50,5 +50,45 @@ p = &b;       // 오류
 
 ```
 ***
+## F401RE-C04 보드로 LED와 버튼 연습
+```c
+#include <stdint.h>
+
+int main(void)
+{
+	// RCC AHB1 peripheral clock enable register (RCC_AHB1ENR)
+	uint32_t volatile *const pClkCtrlReg = (uint32_t *)0x40023830;
+
+	// GPIOA - LED
+	uint32_t volatile *const pPortAModeReg = (uint32_t *)0x40020000;   // MODER 버튼
+	uint32_t volatile *const pPortAOutReg  = (uint32_t *)0x40020014;   // ODR 입력 오프셋
+
+	// GPIOC - Button
+	uint32_t volatile *const pPortCModeReg = (uint32_t *)0x40020800;   // MODER 버튼
+	uint32_t const volatile *const pPortCInReg = (uint32_t *)0x40020810; // IDR 출력 오프셋
+
+	// Enable clocks
+	*pClkCtrlReg |= (1 << 0);  // GPIOA 핀지우기 
+	*pClkCtrlReg |= (1 << 2);  // GPIOC 핀지우기
+
+	// Set PA5 as output
+	*pPortAModeReg &= ~(3 << (5 * 2)); //0으로 설정
+	*pPortAModeReg |=  (1 << (5 * 2)); //10번째 0, 01설정 
+
+	// Set PC13 as input
+	*pPortCModeReg &= ~(3 << (13 * 2)); //버튼 0설정
+
+
+	while (1)
+	{
+		uint8_t pinStatus = (uint8_t)((*pPortCInReg >> 13) & 0x1);  // PC13 읽기
+
+		if (pinStatus)
+			*pPortAOutReg |= (1 << 5);   // LED ON
+		else
+			*pPortAOutReg &= ~(1 << 5);  // LED OFF
+	}
+}
+```
 
 
