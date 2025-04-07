@@ -45,8 +45,10 @@ While 무한 루프 안에서 전역플래그가 ISR에 의해 설정된경우
 - 주인이 문 열어줌 (ISR 실행)
 - 불 꺼줌 (Pending Bit Clear)
 - 다음 손님 기다림 (다시 대기)
-
 ***
+## Struct Padding
+
+
 
 
 
