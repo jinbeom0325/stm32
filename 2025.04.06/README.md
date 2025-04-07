@@ -67,23 +67,23 @@ uint32_t volatile *const pPortAOutReg  = (uint32_t *)0x40020014;   // ODR 입력
 uint32_t volatile *const pPortCModeReg = (uint32_t *)0x40020800;   // MODER 버튼
 uint32_t const volatile *const pPortCInReg = (uint32_t *)0x40020810; // IDR 출력 오프셋
 
-// Enable clocks
+// Enable clocks 클럭활성화 
 *pClkCtrlReg |= (1 << 0);  // GPIOA 핀지우기 
 *pClkCtrlReg |= (1 << 2);  // GPIOC 핀지우기
 
 // Set PA5 as output
 *pPortAModeReg &= ~(3 << (5 * 2)); //0으로 설정
-*pPortAModeReg |=  (1 << (5 * 2)); //10번째 0, 01설정 
+*pPortAModeReg |=  (1 << (5 * 2)); //10번째 0, 01설정  출력모드 
 
 // Set PC13 as input
-*pPortCModeReg &= ~(3 << (13 * 2)); //버튼 0설정
+*pPortCModeReg &= ~(3 << (13 * 2)); //버튼 0설정 입력모드 
 
 
 while (1)
 {
-	uint8_t pinStatus = (uint8_t)((*pPortCInReg >> 13) & 0x1);  // PC13 읽기
+	uint8_t pinStatus = (uint8_t)((*pPortCInReg >> 13) & 0x1);  // PC13 
 
-	if (pinStatus)
+	if (pinStatus) //1 버튼 안눌림
 		*pPortAOutReg |= (1 << 5);   // LED ON
 	else
 		*pPortAOutReg &= ~(1 << 5);  // LED OFF
