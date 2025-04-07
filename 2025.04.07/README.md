@@ -47,6 +47,31 @@ While 무한 루프 안에서 전역플래그가 ISR에 의해 설정된경우
 - 다음 손님 기다림 (다시 대기)
 ***
 ## Struct Padding
+```c
+#include <stdio.h>
+struct test {
+    char a;   // 1byte
+    int b;    // 4byte
+    char c;   // 1byte
+};
+printf("%d", sizeof(struct test)); 
+```
+메모리 배치
+|주소|	내용|
+|--|--|
+|0|	a(1byte)|
+|1~3|	패딩 (3byte)|
+|4~7|	b(4byte)|
+|8|	c(1byte)|
+|9~11|	패딩 (3byte)|
+- CPU는 4byte 단위로 int 읽는게 빠름
+- char 바로 뒤에 int 놓으면 → 느림 → 오류 날 수도 있음
+- 그래서 정렬 + 패딩 넣어서 최적화
+***
+
+
+
+
 
 
 
