@@ -5,12 +5,13 @@ volatile 사용 안 할 경우
 
 volatile 사용할 경우
 - 최적화 O1 실행시 두 변수에 대한 연산 최적화 하지 않음
+***
+- uint8_t volatile my_data; = volatile uint8_t my_data; = 휘발성 변수
+- uint32_t volatile *const 레지스터_이름 = (uint32_t *)주소;
+- uint32_t const volatile *const 레지스터_이름 = (uint32_t *)주소; 형식은 읽기전용 메모리 주소에만 사용 
+- const는 예기치 않은 변경으로부터 포인터를 보호하기 위해
+- volatile는 "값이 언제든 바뀔 수 있다" 라고 컴파일러에게 알려주는 키워드
 
-결론 : volatile = "값이 언제든 바뀔 수 있다" 라고 컴파일러에게 알려주는 키워드
-
-uint8_t volatile my_data; = volatile uint8_t my_data; = 휘발성 변수
-
-uint32_t volatile *const 레지스터_이름 = (uint32_t *)주소;
 |키워드|	의미|
 |--|--|
 |volatile|	값 자주 바뀜|
@@ -24,6 +25,12 @@ While 무한 루프 안에서 전역플래그가 ISR에 의해 설정된경우
 버튼의 눌림 횟수 프린트 
 
 버튼 플래그 재설정
+
+|상황|	volatile 필요 여부|
+|--|--|
+|HW 레지스터 값 계속 바뀜|	필수|
+|ISR 변수|	필수|
+|일반 지역변수|	X 안써도 됨|
 ***
 ## pending bit
 |개념|설명|
