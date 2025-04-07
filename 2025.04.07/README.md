@@ -86,7 +86,7 @@ packet.longAddr  =   (uint8_t) ( (packetValue >> 21) & 0xFF ); > 21칸 이동하
 int main(void)
 {
 	RCC_AHB1ENR_t volatile *const pClkCtrlReg   = (RCC_AHB1ENR_t*) 0x40023830;  // RCC AHB1ENR 가변 및 휘발성 
-	GPIOx_MODE_t  volatile *const pPortAModeReg = (GPIOx_MODER_t*)  0x40020000;  // GPIOA MODER
+	GPIOx_MODER_t  volatile *const pPortAModeReg = (GPIOx_MODER_t*)  0x40020000;  // GPIOA MODER
 	GPIOx_ODR_t   volatile *const pPortAOutReg  = (GPIOx_ODR_t*)   0x40020014;  // GPIOA ODR
 
 	// 1. GPIOA 클럭 Enable
@@ -177,10 +177,10 @@ typedef struct
 	uint32_t reserved	:16;
 } GPIOx_ODR_t;
 
-
 #endif /* MAIN_H_ */
-
 ```
+***
+
 
 
 
