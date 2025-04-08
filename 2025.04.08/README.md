@@ -55,6 +55,47 @@ scanf("%s", str);  //입력할때 띄워쓰기전까지 입력받음
 scanf("%[^s]s",str); //이렇게 하면 s나오기 전까지 입력 받음, [s^] -> s또는 ^ 만 입력 받음  
 ```
 ***
+### void display_all_records(STUDENT_INFO_t *record, int8_t max_record) 형식으로 받을때 
+```c
+record[i] 는  *(record+i)와 같음
+printf("%d\n", record[i].rollNumber);
+printf("%d\n", (*(record+i)).rollNumber);
+printf("%d\n", (record+i)->rollNumber);
+전부 같은 접근이다. 
+```
+***
+### 조건부 컴파일
+```c
+ #define TEST   //주석처리 하면 아래 코드 실행 안됌
+
+#ifdef TEST
+    printf("TEST\n");
+#endif
+```
+***
+```c
+#ifndef TEST  //TEST define안되어있으면 실행 
+   printf("TEST\n"); 
+#endif
+```
+***
+### 전처리기
+```c
+//#define AREA_CIR
+#define AREA_TRI
+
+#if !defined(AREA_CIR) && !defined(AREA_TRI)
+	#warning "No macros defined."
+  //#error "No macros defined."
+#endif
+```
+|전처리기|의미|
+|--|--|
+|#warning| 컴파일 시 경고 출력|
+|#error|컴파일 에러 발생시키기 (빌드 멈춤)|
+***
+
+
  
 
 
