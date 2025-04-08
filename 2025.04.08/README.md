@@ -95,8 +95,13 @@ printf("%d\n", (record+i)->rollNumber);
 |#error|컴파일 에러 발생시키기 (빌드 멈춤)|
 ***
 
+## 용어 
+|구분|	의미|	특징|
+|--|--|--|
+|AHB (Advanced High-performance Bus)|빠른 버스|고속 장치 연결 (메모리, DMA)|
+|APB (Advanced Peripheral Bus)|	느린 버스|주변장치 연결 (GPIO, UART, I2C)|
 
- 
+PA1 = Port A Pin 1
 
 
 
