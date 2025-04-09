@@ -25,7 +25,7 @@ int main(void)
 	data.data3 = 0x22;
 	data.data4 = 0xABCD;
 
-	displayMemberElements(data);
+	displayMemberElements(&data);   // & 붙여서 주소 전달
 
 
 	getchar();
@@ -35,12 +35,12 @@ int main(void)
 }
 
 
-void displayMemberElements(struct DataSet data)
+void displayMemberElements(struct DataSet *data)
 {
-	printf("data1 = %X\n",data.data1);
-	printf("data2 = %X\n",data.data2);
-	printf("data3 = %X\n",data.data3);
-	printf("data4 = %X\n",data.data4);
+	printf("data1 = %X\n", data->data1);
+	printf("data2 = %X\n", data->data2);
+	printf("data3 = %X\n", data->data3);
+	printf("data4 = %X\n", data->data4);
 
 }
 
