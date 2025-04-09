@@ -5,14 +5,14 @@
 
 struct Packet
 {
-	uint8_t crc;
-	uint8_t status;
-	uint16_t payload;
-	uint8_t bat;
-	uint8_t sensor;
-	uint8_t longAddr;
-	uint8_t shortAddr;
-	uint8_t addrMode;
+	uint8_t crc; //오류검출
+	uint8_t status; //상태
+	uint16_t payload; //실제데이터
+	uint8_t bat; //배터리
+	uint8_t sensor; //센서
+	uint8_t longAddr; //주소
+	uint8_t shortAddr; //주소
+	uint8_t addrMode; //주소모드 
 };
 
 
