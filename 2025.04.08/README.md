@@ -66,7 +66,7 @@ printf("%d\n", (record+i)->rollNumber);
 ***
 ### 조건부 컴파일
 ```c
- #define TEST   //주석처리 하면 아래 코드 실행 안됌
+ #define TEST   //주석처리 하면 아래 코드 실행 안됨
 
 #ifdef TEST
     printf("TEST\n");
