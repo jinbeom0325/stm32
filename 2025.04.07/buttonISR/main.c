@@ -1,85 +1,96 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// global shared variable between main code and ISR
-uint8_t volatile g_button_pressed = 0;
-uint32_t g_button_press_count = 0;
+// 메인 코드 & 인터럽트 서비스 루틴(ISR)에서 같이 쓰는 전역 변수
+uint8_t volatile g_button_pressed = 0;     // 버튼 눌림 여부 저장 (1: 눌림, 0: 안눌림)
+uint32_t g_button_press_count = 0;         // 버튼 누른 횟수 카운트용 변수
 
-void button_init(void);
+void button_init(void);   // 버튼 관련 레지스터 초기화 함수
 
-// RCC 레지스터 (Clock 설정)
-uint32_t volatile *const pClkCtrlReg        = (uint32_t*) 0x40023830;  // RCC_AHB1ENR
-uint32_t volatile *const pClkCtrlRegApb2    = (uint32_t*) 0x40023844;  // RCC_APB2ENR
+// RCC 레지스터 (클럭 설정 관련 레지스터)
+uint32_t volatile *const pClkCtrlReg        = (uint32_t*) 0x40023830;  // RCC_AHB1ENR : GPIOA 클럭 Enable 제어
+uint32_t volatile *const pClkCtrlRegApb2    = (uint32_t*) 0x40023844;  // RCC_APB2ENR : SYSCFG 클럭 Enable 제어
 
-// GPIOA 레지스터
-uint32_t volatile *const pGPIOAModeReg      = (uint32_t*) 0x40020000;  // GPIOA_MODER
+// GPIOA 레지스터 (GPIO 모드 설정 레지스터)
+uint32_t volatile *const pGPIOAModeReg      = (uint32_t*) 0x40020000;  // GPIOA_MODER : GPIOA 모드 설정 (입출력 등 설정)
 
-// EXTI 레지스터
-uint32_t volatile *const pEXTTIPendReg      = (uint32_t*) 0x40013C14;  // EXTI_PR
-uint32_t volatile *const pEXTIMaskReg       = (uint32_t*) 0x40013C00;  // EXTI_IMR
-uint32_t volatile *const pEXTTIEdgeCtrlReg  = (uint32_t*) 0x40013C08;  // EXTI_RTSR
+// EXTI 레지스터 (외부 인터럽트 설정 관련 레지스터)
+uint32_t volatile *const pEXTTIPendReg      = (uint32_t*) 0x40013C14;  // EXTI_PR : Pending Register (인터럽트 발생 여부 표시 & 클리어용)
+uint32_t volatile *const pEXTIMaskReg       = (uint32_t*) 0x40013C00;  // EXTI_IMR : Interrupt Mask Register (인터럽트 허용 or 차단)
+uint32_t volatile *const pEXTTIEdgeCtrlReg  = (uint32_t*) 0x40013C08;  // EXTI_RTSR : Rising Trigger Register (상승엣지 감지 설정)
 
-// NVIC 레지스터
-uint32_t volatile *const pNVICIRQEnReg      = (uint32_t*) 0xE000E100;  // NVIC_ISER0
+// NVIC 레지스터 (인터럽트 허용 관련 레지스터)
+uint32_t volatile *const pNVICIRQEnReg      = (uint32_t*) 0xE000E100;  // NVIC_ISER0 : 인터럽트 Enable Register (특정 IRQ 인터럽트 허용)
 
 
 int main(void)
 {
-	button_init();
+	button_init();  // 버튼 초기화 (레지스터 셋팅)
 
 	while(1)
 	{
-		// Disable interrupt
-		*pEXTIMaskReg &= ~(1 << 0);
+		// 인터럽트 잠깐 비활성화 (버튼 처리 중 인터럽트 들어오는거 방지)
+		*pEXTIMaskReg &= ~(1 << 0);   // EXTI0 비트만 클리어 (0)
 
-		if(g_button_pressed)
+		if(g_button_pressed)  // 버튼 눌림 감지 (ISR에서 1로 바뀜)
 		{
-			// Debouncing delay
-			for(uint32_t volatile i=0; i<250000; i++);
+			// 디바운싱 처리 (버튼 노이즈 제거용 딜레이)
+			for(uint32_t volatile i=0; i<250000; i++);  // 대충 대기시간 줌
 
-			g_button_press_count++;
-			printf("Button pressed : %lu\n", g_button_press_count);
-			g_button_pressed = 0;
+			g_button_press_count++;  // 버튼 눌린 횟수 +1 증가
+
+			printf("Button pressed : %lu\n", g_button_press_count);  // 횟수 출력
+
+			g_button_pressed = 0;   // 플래그 클리어 (다시 대기 상태로)
 		}
 
-		// Enable interrupt
-		*pEXTIMaskReg |= (1 << 0);
+		// 인터럽트 다시 활성화
+		*pEXTIMaskReg |= (1 << 0);   // EXTI0 비트 다시 세팅 (1)
 	}
 }
 
 
+// 버튼 관련 레지스터 초기화
 void button_init(void)
 {
-	// GPIOA 클럭 enable
-	*pClkCtrlReg |= (1 << 0);
+	*pClkCtrlReg |= (1 << 0);      // GPIOA 클럭 Enable
+	*pClkCtrlRegApb2 |= (1 << 14); // SYSCFG 클럭 Enable
 
-	// SYSCFG 클럭 enable
-	*pClkCtrlRegApb2 |= (1 << 14);
+	*pGPIOAModeReg &= ~(3 << (0 * 2));  // GPIOA 0번핀 Input Mode 설정 (00)
 
-	// GPIOA Pin0 (Button) 입력 모드 (00)
-	*pGPIOAModeReg &= ~(3 << (0 * 2));
+	*pEXTTIEdgeCtrlReg |= (1 << 0); // 상승엣지 트리거 설정 (버튼 누를 때 인터럽트 발생)
 
-	// Rising edge trigger 설정
-	*pEXTTIEdgeCtrlReg |= (1 << 0);
+	*pEXTIMaskReg |= (1 << 0);     // EXTI0 인터럽트 허용 (Mask OFF)
 
-	// Interrupt Mask 설정
-	*pEXTIMaskReg |= (1 << 0);
-
-	// NVIC EXTI0 IRQ Enable (IRQ#6)
-	*pNVICIRQEnReg |= (1 << 6);
+	*pNVICIRQEnReg |= (1 << 6);    // NVIC에서 EXTI0 인터럽트 Enable (IRQ 번호 6번)
 }
 
 
-// ISR : EXTI0 Interrupt Handler
+// 인터럽트 서비스 루틴 (ISR) - EXTI0 핸들러
 void EXTI0_IRQHandler(void)
 {
-	g_button_pressed = 1;
+	g_button_pressed = 1;  // 버튼 눌림 감지 플래그 ON
 
-	// Pending Bit Clear
-	*pEXTTIPendReg |= (1 << 0);
+	*pEXTTIPendReg |= (1 << 0);  // Pending Bit 클리어 (인터럽트 처리 끝났다고 알림)
 }
 
+
 //////////////////////////////////////////////////////
+[ main ]
+   
+button_init() 레지스터 셋팅
+   
+while(1) 루프
+ └─ 버튼 눌림 (g_button_pressed == 1)
+        
+    카운트 +1, 출력
+        
+ └─ 인터럽트로 EXTI0_IRQHandler()
+        
+    g_button_pressed = 1
+    Pending Clear
+        
+ 다시 main() 계속
 
 /**
   ******************************************************************************
