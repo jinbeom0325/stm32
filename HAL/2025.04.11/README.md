@@ -79,7 +79,7 @@ system_stm32f4xx.c는 시스템 클럭 관련 핵심 설정 데이터(주파수�
 |AHBPrescTable|	AHB 버스 나눌 때|	HCLK 계산|
 |APBPrescTable|	APB 버스 나눌 때|	PCLK1, PCLK2 계산|
 
-prescaler = 클럭 나눠주기 
+prescaler = 클럭 나눠주기 , 너무 빠르면 일부 장치가 못따라 갈 수 있음 
 
 
 
