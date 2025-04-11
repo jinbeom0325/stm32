@@ -1,5 +1,6 @@
 ## GpioInputOutput
 ```c
+//구조체 
 typedef struct
 {
 	uint32_t Pin;        // 사용할 핀 번호
@@ -10,6 +11,7 @@ typedef struct
 } GPIO_InitTypeDef;
 ```
 ***
+세부설명
 |멤버|	설명|	예시|
 |--|--|--|
 |Pin|	설정할 핀|	GPIO_PIN_0 ~ GPIO_PIN_15|
@@ -29,7 +31,7 @@ typedef struct
 |Systick_Handler|	ms 시간 카운팅 처리|
 ***
 
-## UartTx_Polling
+## UartTx_Polling강의 부분 
 
 |구분|	UART|	USART|
 |--|--|--|
@@ -38,22 +40,28 @@ typedef struct
 |하드웨어 구성|	TX, RX|	TX, RX, (필요시 CLK)|
 |속도|	상대적 느림|	동기 모드 시 더 빠름|  
 ***
-|항목|	의미|	설명|
-|--|--|--|
-|uint32_t BaudRate|	통신 속도|	9600, 115200 같은 초당 비트 전송속도(bps)|
-|uint32_t WordLength|	데이터 비트 수|	데이터 길이 (보통 8bit or 9bit)|
-|uint32_t StopBits|	스탑 비트 수|	전송 끝 표시 (1bit or 2bit)|
-|uint32_t Parity|	패리티 비트 설정|	데이터 오류 검출용 (None, Even, Odd)|
-|uint32_t Mode|	동작 모드|	송신(TX), 수신(RX), 둘다(TX_RX)|
-|uint32_t CLKPolarity|	클럭 극성|	클럭 idle 상태가 High인지 Low인지|
-|uint32_t CLKPhase|	클럭 위상|	클럭의 어느 순간에 데이터 샘플링|
-|uint32_t CLKLastBit|	마지막 비트 클럭 출력 여부|	마지막 비트에 클럭 출력할지 여부|
+## UART 구조체 내용
+| 항목 | 의미 | 설명 |
+|------|------|------|
+| uint32_t BaudRate | 통신 속도 | 전송 속도(bps) 설정 (ex: 9600, 115200) |
+| uint32_t WordLength | 데이터 비트 수 | 전송 데이터 비트 길이 (8bit or 9bit) |
+| uint32_t StopBits | 스탑 비트 수 | 데이터 전송 끝 표시 비트 (1bit or 2bit) |
+| uint32_t Parity | 패리티 비트 | 오류 검출 비트 설정 (None, Even, Odd) |
+| uint32_t Mode | 동작 모드 | 송신(TX), 수신(RX), 둘 다(TX_RX) 설정 |
+| uint32_t HwFlowCtl | 하드웨어 플로우 제어 | 흐름제어 사용 여부 (None, RTS, CTS, RTS_CTS) |
+| uint32_t OverSampling | 오버샘플링 설정 | 데이터 샘플링 속도 (8배 or 16배 샘플링) |
 ***
+### 데이터 통신방식 분류
+- UART는 보통 full-duplex구조
+  
 |구분|	설명|	예시|	방향|
 |--|--|--|--|
 |Simplex(단방향)|	한쪽만 전송, 한쪽만 수신|	TV, 라디오|	→|
 |Half-Duplex(반이중)|	양방향 가능 but 동시에 불가능|	무전기|	→ ← (순서대로)|
 |Full-Duplex(전이중)|	양방향 동시에 가능|	전화, UART(Full-Duplex)|→ ← (동시)|
+***
+
+
 
 
 
