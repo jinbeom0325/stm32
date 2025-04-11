@@ -31,23 +31,39 @@ LOAD 값 구하는 공식
 |PSC (Prescaler Register)|	타이머 입력 클럭 나눠서 느리게 만듦|
 ***
 ## 타이머 동작 흐름
-- 시스템 클럭 → Divider → APB1 / APB2 Bus → Timer
 
-- Timer Prescaler (PSC) 로 클럭 속도를 더 나눔
+타이머 클럭 흐름 (예: System Clock = 16MHz)
+1. System Clock → Divider
+   
+    - 16MHz → Divider = 1 → 그대로 16MHz
 
-- CNT 값이 ARR 값과 같아지면 → Interrupt 발생 (Update Event)
+2. Divider → APB Prescaler
+   
+    - APB Prescaler = 1 → 그대로 16MHz
 
-- CNT 값 자동 초기화 후 다시 카운트 시작
+    - APB Prescaler가 2 이상이면 Timer Clock = APB Clock × 2
 
-만약 시스템 클럭이 16MHz 라고 가정하면,
+3. Timer Clock → Timer Prescaler (PSC)
+   
+    - PSC = 15999 설정
 
-Divider = 1 → 그대로 16MHz
+    → Timer Clock ÷ (PSC + 1) = 16MHz ÷ 16000 = 1kHz
 
-APB Prescaler = 1 → 그대로 16MHz
+    → Timer CNT 값이 1ms 마다 1씩 증가
 
-Timer Prescaler (PSC) = 원하는 값으로 설정
-예) PSC = 15999 → (16MHz / (15999 + 1)) = 1kHz
-→ 타이머는 1ms마다 CNT 값 증가
+4. Timer CNT → ARR 비교
+   
+    ARR = 원하는 값 설정 (예: ARR = 999)
+
+    → CNT가 0 ~ 999까지 세면 총 1000번 → 1초
+
+5. CNT = ARR → 이벤트 발생
+   
+  * CNT 값이 ARR 값 도달 시
+
+    - CNT → 0으로 초기화
+
+    - Update Event 발생 (인터럽트 발생 가능)
 ***
 ## 타이머 주기 계산 공식(인터럽트 발생 주기)
 타이머 주기 = (PSC + 1) x (ARR + 1) / Timer Clock
@@ -63,6 +79,15 @@ ARR = 499
      = 48,000 x 500 / 48,000,000  
      = 0.5초 (500ms)
 ```
+***
+|용어|	의미|	설명|
+|--|--|--|
+|System Clock (시스템 클럭)|	MCU 기본 동작 클럭|	STM32F401RE 기준 내부 또는 외부 클럭 (예: 16MHz)|
+|Divider (분주기)|	클럭 나누기 설정|	Timer에 들어가기 전 클럭 나눔 (보통 APB 클럭 관련)|
+|APB Prescaler (APB 프리스케일러)|	APB 버스 클럭 나누기|	APB1, APB2 버스 클럭을 나눔 (타이머 동작 클럭에 영향)|
+|Timer Prescaler (PSC)|	타이머 내부 분주기|	Timer CNT가 올라가는 속도 결정|
+|ARR (Auto Reload Register)|	자동 리로드 값|	CNT가 ARR 값까지 도달하면 0으로 초기화 + 이벤트 발생|
+|CNT (Counter)|	타이머 카운터 값|	PSC 설정에 따라 일정 주기마다 증가하는 값|
 ***
 |용어|의미|
 |--|--|
