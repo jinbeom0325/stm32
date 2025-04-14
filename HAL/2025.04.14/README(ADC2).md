@@ -76,7 +76,7 @@ injected group은 우선순위 변환 그룹으로 regular group을 끼어들기
 평소에 regular group으로 센서들을 측정 중인데, 갑자기 중요한 이벤트가 발생하면 injected group으로 실행됨
 ***
 
-### 연속변환 모드 코드 전체 흐름 
+### 연속변환 모드 코드 흐름 
 ```c
 // adc.c
 adc_init_start()
