@@ -2,7 +2,7 @@
 ADC는 아날로그 신호(전압)를 디지털 신호(숫자)로 바꿔주는 작업 
 
 STM32 시리즈 MCU에는 ADC 동작 모드가 여러 개 존재
-- Independent Modes (독립 모드) → 이번 수업 내용
+- Independent Modes (독립 모드) → 이번 수업 내용 (하나의 ADC가 다른 ADC에 영향 없이 단독으로 작동하는 기본 동작 모드)
 - Dual Modes (듀얼 모드) → ADC가 2개 이상 있을 때만 가능 (STM32F7 등)
 ***
 STM32F4는
@@ -75,3 +75,24 @@ injected group은 우선순위 변환 그룹으로 regular group을 끼어들기
 
 평소에 regular group으로 센서들을 측정 중인데, 갑자기 중요한 이벤트가 발생하면 injected group으로 실행됨
 ***
+
+### 연속변환 모드 코드 전체 흐름 
+```c
+// adc.c
+adc_init_start()
+   └── adc_pa0_continous_conv_init()  ← 설정
+         ├── GPIO(PA0) 설정 (Analog Input)
+         ├── ADC 설정 (연속 변환, 12bit 등)
+         └── 채널 설정 (Channel 0 → PA0)
+   └── HAL_ADC_Start()                ← 변환 시작
+→ 이후에는 계속 pa0_adc_read()로 아날로그 값 읽기 가능
+ccc
+***
+### 중요부분 ###
+메인부분에서는 pa0_adc_read() 함수 실행해서 PA0핀의 센서 값을 변수에 저장
+
+adc.h 헤더부분은 pa0_adc_read는 HAL_ADC_GetValue(&hadc1);로 샘플링한 값을 이 함수로 디지털로 읽어오기 ,adc_init_start는
+
+adc_pa0_continous_conv_init호출로 아날로그모드와 연속변환 설정 하고(계속변환됨) HAL_ADC_Start(&hadc1);로 ADC변환하기 
+
+
