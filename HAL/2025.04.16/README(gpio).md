@@ -1,5 +1,8 @@
-GP그가 0 -> 1로 바뀔 때 인터럽트 발생
-- 사용 예 : 버튼을 누르면 외부 풀다운 상태에서 3.3V로 전압 상승 -> 인터럽트 발생
+## 코드부분 
+### GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+- 기능: PC13 핀을 인터럽트 모드로 설정
+- 상세: GPIO_MODE_IT_RISING은 **Rising Edge (상승엣지)**에서 인터럽트가 발생하게 합니다. 즉, 입력 신호가 0 → 1로 바뀔 때 인터럽트 발생.
+- 사용 예: 버튼을 누르면 외부 풀다운 상태에서 3.3V로 전압 상승 → 인터럽트 발생
 
 ### GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 - 기능: 해당 핀의 출력 신호 전환 속도를 설정
@@ -19,5 +22,7 @@ GP그가 0 -> 1로 바뀔 때 인터럽트 발생
 ### 동작요약
 버튼 누르면 low에서 high 바뀌는 순간 EXTI15_10_IRQHandler() 함수가 호출되어 인터럽트가 발생 (PC13핀에 연결된 인터럽트 요청 처리)
 그다음 HAL_GPIO_EXTI_Callback(GPIO_Pin) 함수가 호출되고 LED동작
+***
+
 
 
