@@ -2,14 +2,16 @@
  ### 기반 포맷: RIFF (Resource Interchange File Format)
  ```c
  //avi 구조 
- RIFF Chunk (전체 파일)
- ├─ hdrl (Header List)
- │   ├─ avih (AVI Header)
- │   └─ strl (Stream List)
- │       ├─ strh (Stream Header)
- │       └─ strf (Stream Format)
- ├─ movi (Movie Data: 실제 오디오/비디오 프레임)
- └─ idx1 (Optional Index Chunk - 빠른 탐색용)
+ RIFF Chunk            ; 전체 AVI 파일을 감싸는 상위 구조  
+ㄴ hdrl (Header List) ; 헤더 정보 리스트  
+  ㄴ avih             ; AVI 전체 헤더 (프레임 속도, 해상도 등)  
+  ㄴ strl (Stream List)  
+    ㄴ strh           ; 스트림 헤더 (비디오/오디오 타입 등)  
+    ㄴ strf           ; 스트림 포맷 (코덱, 해상도, 비트레이트 등)  
+
+ㄴ movi               ; Movie Data (실제 비디오/오디오 프레임 데이터)
+
+ㄴ idx1 (선택 사항)   ; 인덱스 정보 (빠른 탐색용)
  ```
  - avih: 전체 AVI 파일의 정보 (프레임률, 해상도 등)
  - strh: 각 스트림(비디오, 오디오 등)의 속성
@@ -24,14 +26,20 @@
  ## MP4 (MPEG-4 Part 14)
  ### 기반 포맷: ISO Base Media File Format (ISO/IEC 14496-12)
  ```c
- ftyp (file type)
- moov (movie metadata)
- ├─ mvhd (movie header)
- ├─ trak (track – 비디오, 오디오 등)
- │   ├─ tkhd (track header)
- │   └─ mdia (media information)
- │       ├─ mdhd, hdlr, minf, stbl...
- mdat (media data)
+ ftyp          ; 파일 타입 박스 (파일 형식 식별자 및 호환성 정보)
+
+moov          ; 메타데이터 (무비 정보)
+ㄴ mvhd       ; 무비 헤더 (전체 재생시간, 타임스케일 등)
+ㄴ trak       ; 트랙 (비디오, 오디오 등 각각의 트랙 정보)
+  ㄴ tkhd     ; 트랙 헤더 (트랙 ID, 크기, 시작 위치 등)
+  ㄴ mdia     ; 미디어 정보
+    ㄴ mdhd   ; 미디어 헤더 (타임스케일, 지속시간 등)
+    ㄴ hdlr   ; 핸들러 (비디오인지 오디오인지 구분)
+    ㄴ minf   ; 미디어 정보 (데이터 포맷 등 포함)
+      ㄴ stbl ; 샘플 테이블 (프레임/샘플 오프셋, 시간 등)
+
+mdat          ; 실제 미디어 데이터 (비디오 프레임, 오디오 샘플 등)
+
  ```
  - ftyp: 파일 형식 정보
  - moov: 재생에 필요한 메타데이터 포함
