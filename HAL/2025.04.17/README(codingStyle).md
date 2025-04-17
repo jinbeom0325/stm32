@@ -39,6 +39,16 @@ Variable과 Function Parameter이름은 기본적으로 Hungarian notation을 �
 ### 용어
 컴포넌트는 소프트웨어나 하드웨어 시스템에서 독립적으로 관리되고 재사용 가능한 기능이나 모듈
 
+Implementation File(소스파일)
+
+Description(설명) 
+
+Author(개발자)
+
+Suffix(확장자)
+
+enum(상수집합,열거형)
+
 선언(Declaration)	
 
 정의(Definition)
@@ -50,6 +60,8 @@ indentation(들여쓰기)
 Binary operator(이항연산자)
 
 expression(표현식)
+
+ nesting(중첩)
 
 Conditional Compilation (조건부 컴파일) #ifdef #else #endif
 
