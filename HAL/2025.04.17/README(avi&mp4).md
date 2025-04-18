@@ -1,5 +1,6 @@
 ##  AVI (Audio Video Interleave)
  ### 기반 포맷: RIFF (Resource Interchange File Format)
+ #### 자원 교환 파일 형식, 멀티미디어 파일 포맷의 구조(avi,wav,webp)
  ```c
  //avi 구조 
  RIFF Chunk            ; 전체 AVI 파일을 감싸는 상위 구조  
@@ -25,6 +26,8 @@
  ***
  ## MP4 (MPEG-4 Part 14)
  ### 기반 포맷: ISO Base Media File Format (ISO/IEC 14496-12)
+ #### 다양한 미디어 형식의 공통 기반 구조를 정의한 컨테이너 포맷 표준(mp4,mov,m4a)
+ 
  ```c
  ftyp          ; 파일 타입 박스 (파일 형식 식별자 및 호환성 정보)
 
