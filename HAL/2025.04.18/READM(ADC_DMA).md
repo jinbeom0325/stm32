@@ -84,3 +84,12 @@ void adc_pa0_dma_init(void)
     __HAL_LINKDMA(&hadc1, DMA_Handle, hdma_adc1);
 }
 ```
+### 단일채널 멀티채널 차이
+항목 | 기존 코드 (adc_pa0_dma_init()) | 멀티 채널 코드 (adc_pa0pa4_dma_init())
+--|--|--
+사용 핀 | PA0만 사용 | PA0, PA4 사용
+ADC 변환 수 (NbrOfConversion) | 1 | 2
+ScanConvMode | DISABLE | ENABLE
+ADC 채널 설정 | 1번 채널만 설정 (CH0) | 2번 채널 설정 (CH0, CH4 순차적으로)
+데이터 저장 순서 | 하나의 값만 저장 | 두 개의 값이 순서대로 저장 (CH0 → CH4)
+DMA 전송 대상 메모리 배열 | uint16_t data[1]; | uint16_t data[2]; (채널 수만큼 배열 필요)
