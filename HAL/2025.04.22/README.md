@@ -39,3 +39,9 @@ CPU|계속 기다림 | 다른 작업 가능
 회로 복잡성 | 간단한 회로 설계 (적은 핀 사용) | 복잡한 회로 설계 (많은 핀 필요)
 예시 | RS-232, I2C, SPI, UART, USB | 병렬 포트(프린터), IDE, SCSI
 ***
+
+```c
+HAL_SPI_TransmitReceive_IT(&hspi1, tx_buffer, rx_buffer, 10) //이 함수는 비동기
+HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 10,100); //이 함수는 동기 
+```
+
