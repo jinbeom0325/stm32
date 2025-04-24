@@ -75,6 +75,12 @@ x = ((data_rec[1] << 8) | data_rec[0]);
 //정수형 값을 g 단위 실수값으로 변환 (0.0078g/LSB)
 xg = x * FOUR_G_SCALE_FACT;
 ```
+***
+```c
+//adxl주소는 7비트에 1비트는 읽기,쓰기
+//이 함수는 쓰기 함수인데 HAL이 자동으로 LSB(하위비트)를 0(쓰기)으로 바꿔서 전송해줌 
+HAL_I2C_Master_Transmit(&hi2c1, DEVICE_ADDR, data, 2, 100);
+```
 
 
 
