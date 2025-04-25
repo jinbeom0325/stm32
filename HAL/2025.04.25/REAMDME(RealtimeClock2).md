@@ -25,7 +25,7 @@ Asynch_Prescaler는 7비트 최대 127 까지 Synch_Prescaler는 15비트 32,767
 비동기 프리스케일러를 작게하면 동작전류가 낮고 전력 소모가 적어서 127, 249 조합을 많이 씀 
 ***
 
-### rtc_init(void) 함수
+## rtc_init(void) 함수
 **RTC를 사용할 수 있도록 내부 오실레이터 설정 -> RTC클럭 소스 설정 -> RTC 기본 설정 적용**
 ```c
 // 오실레이터 설정 관련 구조체 초기화화
@@ -78,7 +78,7 @@ SynchPrediv | RTC 프리스케일러 설정 (동기)
 OutPut = DISABLE | RTC 알람/펄스 출력 기능 사용 안함
 ***
 
-### rtc_calendar_config(void) 함수
+## rtc_calendar_config(void) 함수
 **RTC를 초기화하는 코드로, 주어진 날짜와 시간 정보를 설정하고, RTC 설정이 완료되었음을 백업 레지스터에 기록하는 함수**
 
 ```c
@@ -99,13 +99,41 @@ sdatestructure.WeekDay = RTC_WEEKDAY_SUNDAY; // 일요일
 HAL_RTC_SetDate(&RtcHandle, &sdatestructure, RTC_FORMAT_BCD); // 날짜 설정
 ```
 - 연도 (Year): 0x19는 2019년을 의미 RTC는 연도를 BCD(Binary-Coded Decimal) 형식으로 저장하므로 0x19는 2019년의 BCD 값
-- 월 (Month): RTC_MONTH_JULY는 7월을 의미 RTC_MONTH_JULY는 RTC 라이브러리에서 미리 정의된 값으로, 7월
+- 월 (Month): RTC_MONTH_JULY는 7월을 의미 RTC_MONTH_JULY는 RTC 라이브러리에서 미리 정의된 값으로, 7월을 나타냄
 - 일 (Date): 0x14는 14일을 의미
-- 요일 (WeekDay): RTC_WEEKDAY_SUNDAY는 일요일 STM32 RTC는 0~6 값으로 요일을 설정할 수 있으며, 일요일은 0
+- 요일 (WeekDay): RTC_WEEKDAY_SUNDAY는 일요일 STM32 RTC는 1~7 값으로 요일을 설정가능
 - HAL_RTC_SetDate() 함수는 실제 RTC 하드웨어에 날짜 정보를 설정하는 함수
-- RTC_FORMAT_BCD는 날짜 정보가 BCD 형식으로 전달된다는 것
+- RTC_FORMAT_BCD는 날짜 정보가 BCD 형식으로 전달된다는 것 (이진화 십진수, 각자리를 4비트씩표현)
+***
+```c
+// 시간 설정: 오전 3시 00분 00초
+stimestructure.Hours = 0x03;
+stimestructure.Minutes = 0x00;
+stimestructure.Seconds = 0x00;
+stimestructure.TimeFormat = RTC_HOURFORMAT12_AM; // 오전
+stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+stimestructure.StoreOperation = RTC_STOREOPERATION_RESET;
 
+HAL_RTC_SetTime(&RtcHandle, &stimestructure, RTC_FORMAT_BCD); // 시간 설정
+```
+- 시 (Hours): 0x03은 3시
+- 분 (Minutes): 0x00은 00분
+- 초 (Seconds): 0x00은 00초
+- 시간 형식 (TimeFormat): RTC_HOURFORMAT12_AM은 12시간 형식, 오전을 설정. 만약 24시간 형식으로 설정하려면 RTC_HOURFORMAT_24를 사용
+- Daylight Saving (DayLightSaving): RTC_DAYLIGHTSAVING_NONE은 서머타임 적용을 하지 않음을 설정
+- 저장 작업 (StoreOperation): RTC_STOREOPERATION_RESET은 저장 작업을 하지 않고 리셋 상태로 설정함(한번 설정하면 시간이 계속 흐르기 때문에 reset으로 설정,불필요데이터 삭)
+- HAL_RTC_SetTime() 함수는 실제 RTC 하드웨어에 시간을 설정하는 함수
+- RTC_FORMAT_BCD는 시간을 BCD 형식으로 전달하는 설정
+***
+```c
+// 설정 완료 플래그 기록
+HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR0, BK_FLAG);
+```
+HAL_RTCEx_BKUPWrite() 함수는 RTC 백업 레지스터에 값을 기록하는 함수
+RTC_BKP_DR0: RTC 백업 레지스터 0에 플래그 값을 기록해서 다시 부팅될때 날짜/시간 설정을 건너뛰기 위해 사용 
+***
 
+## rtc_calendar_show(uint8_t *showtime, uint8_t *showdate) 함수
 
 
 
