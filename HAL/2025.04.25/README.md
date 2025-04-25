@@ -1,4 +1,4 @@
-## 강의 내용 복습 
+## 강의 내용 복습 (진행중)
 ## C Programming: Absolute Beginners
 
 ### 마스크 비트 
