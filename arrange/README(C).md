@@ -1,5 +1,5 @@
 ```c
-
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 void ChangeNumbers(int* p1, int* p2) /*포인터 2개 인자로 받음*/ {
 	int temp = *p1;  //swap
