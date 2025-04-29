@@ -13,9 +13,9 @@ int main(void) {
 	scanf("%d", &num1);
 	printf("숫자2 : ");
 	scanf("%d", &num2);
-	printf("바꾸기 전..\n 숫자1 : %d, 숫자2 : %d\n", num1, num2);
+	printf("바꾸기 전\n 숫자1 : %d, 숫자2 : %d\n", num1, num2);
 	ChangeNumbers(&num1, &num2);
-	printf("바꾼 후..\n 숫자1 : %d, 숫자2 : %d\n", num1, num2);
+	printf("바꾼 후\n 숫자1 : %d, 숫자2 : %d\n", num1, num2);
 	return 0;
 }
 ```
