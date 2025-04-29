@@ -1,4 +1,4 @@
-## MPS(Multi-Physical Sensors) 다물리센서 학습
+## MPS(Multi-Physical Sensors) 다물리센서 학습진행중
 - 여러 물리적 데이터를 동시에 측정할 수 있는 센서 시스템을 의미
 ***
 사용 센서 : 온도/습도, 함수비, 풍속, 간극수압, 강우량 센서 
