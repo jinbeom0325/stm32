@@ -1,12 +1,6 @@
-https://www.youtube.com/watch?v=1YpiCnHQb3k&list=PLz--ENLG_8TNjRg1OtyFBvUyV4PHaKwmu&index=11
-
-클럭을 키면 전류를 더욱 사용 
-
-극한으로 전류를 아껴야 하는 상황에는 sleep모드 뿐만 아니라 클럭도 하나하나 전부 제어해야함
-***
-
 ### 2025.04.29 학습
-- 유튜브 강의학습
+- 강의학습
+  - https://www.youtube.com/watch?v=1YpiCnHQb3k&list=PLz--ENLG_8TNjRg1OtyFBvUyV4PHaKwmu&index=11
 
   - https://www.youtube.com/watch?v=tWwiC0zxbvI&list=PLz--ENLG_8TNjRg1OtyFBvUyV4PHaKwmu&index=13 
   
@@ -15,7 +9,7 @@ https://www.youtube.com/watch?v=1YpiCnHQb3k&list=PLz--ENLG_8TNjRg1OtyFBvUyV4PHaK
   - https://www.youtube.com/watch?v=AnSYv01-1Tc&list=PLz--ENLG_8TNjRg1OtyFBvUyV4PHaKwmu&index=14
 
 - c언어학습
-- 
+- MPS 다물리센서 학습 
 ***
 
 
