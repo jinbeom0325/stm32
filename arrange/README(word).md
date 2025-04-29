@@ -1,5 +1,17 @@
 ## 용어 정리 (진행중)
 
+용어 | 뜻
+--|--
+UART | Universal Asynchronous Receiver-Transmitter. 비동기 방식으로 데이터를 직렬(Serial)로 송수신하는 통신 방식.
+ADC | Analog to Digital Converter. 아날로그 신호(연속된 값)를 디지털 신호(0과 1)로 변환하는 장치.
+DMA | Direct Memory Access. CPU를 거치지 않고, 주변장치와 메모리 간 직접 데이터 전송을 담당하는 장치. 빠르고 효율적임.
+SPI | Serial Peripheral Interface. 짧은 거리 고속 통신을 위한 동기식 직렬 통신 방식. (Master-Slave 구조)
+I2C | Inter-Integrated Circuit. 2개의 선(SCL, SDA)만으로 여러 장치들을 연결하는 통신 방식. (주소로 장치 구분)
+RTC | Real Time Clock. 날짜, 시간 정보를 유지하는 하드웨어 타이머. 보조 전원(VBAT)으로 리셋 후에도 동작 가능.
+EXTI | External Interrupt. 외부 핀 입력(버튼 등)으로 발생하는 인터럽트. (외부 이벤트 감지)
+NVIC | Nested Vectored Interrupt Controller. 인터럽트를 우선순위별로 관리하고 처리하는 ARM 코어 내부 컨트롤러.
+RCC | Reset and Clock Control. MCU의 클럭 소스 관리, 리셋 기능을 담당하는 블록. 주변장치 클럭도 설정 가능.
+***
 ### RCC관련
 
 - RCC (Reset and Clock Control) : 클럭과 리셋 제어를 담당하는 주변장치.
