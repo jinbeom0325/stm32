@@ -48,6 +48,11 @@ UART | Universal Asynchronous Receiver-Transmitter | MCU와 외부 장치 간 �
 
 ​IS42S32800G는 ISSI에서 제조한 256Mb(32MB) 용량의 고속 SDRAM(Synchronous DRAM) 메모리
 ***
+| 역할              | MCU                 | ADS8688     |
+| --------------- | ------------------- | ----------- |
+| **MCU (STM32)** | 중앙 제어, 통신 처리        | SPI 마스터 역할  |
+| **ADS8688**     | 센서 데이터를 아날로그→디지털 변환 | SPI 슬레이브 역할 |
+
 ### 센서 부분
 
 | 항목             | HTU21D      | LM35D                |
