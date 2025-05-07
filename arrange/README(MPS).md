@@ -78,6 +78,8 @@ UART | Universal Asynchronous Receiver-Transmitter | MCU와 외부 장치 간 �
 | BLUE    | 출력 신호 | STM32의 PB0 핀에 연결 (0.4V \~ 2.0V 범위) |
 
 ### 강우량센서
+- GPIO
+  
 | 센서 신호명     | 연결 핀  | 설명                                        |
 | ---------- | ----- | ----------------------------------------- |
 | Rain Pulse | PJ6 | STM32의 GPIO PJ6 핀에 연결<br>TIM8 기능 가능 |
