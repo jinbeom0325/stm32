@@ -65,8 +65,8 @@ UART | Universal Asynchronous Receiver-Transmitter | MCU와 외부 장치 간 �
 | --------- | --------- | ------------------------- |
 | VCC       | +3.3V   | 전원 공급                     |
 | GND       | GND     | 그라운드                      |
-| SCL (클럭)  | HUM_SCL | STM32의 I2C 클럭 핀으로 연결  |
-| SDA (데이터) | HUM_SDA | STM32의 I2C 데이터 핀으로 연결 |
+| SCL (클럭)  | HUM_SCL | STM32의 I2C PB6 클럭 핀으로 연결  |
+| SDA (데이터) | HUM_SDA | STM32의 I2C PB7 데이터 핀으로 연결 |
 
 ### 풍속센서
 - ADC
