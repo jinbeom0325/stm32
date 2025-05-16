@@ -1,9 +1,13 @@
 ## 5.15
 
 eea-cs : eea-m 상태 감지 모니터링하여 제어 컨트롤 및 송수신 hex value
+
 eea-rtu : EEA-CS와 RS-232C로 연결 EEA-CS로부터 제어 데이터를 수신하거나, EEA-M의 상태 정보를 EEA-CS에 전송 EEA-RTU는 EEA-CS로부터 수신한 제어 데이터를 EEA-M에 전달하고, EEA-M의 변경상태를 수신받아 EEA-CS로 전달
+
 eea-m : EEA-RTU로부터 제어 데이터를 수신 받아 연결된 LED전등을 켜거나 끄고, 자신의 변경된 상태를 EEA-RTU로 전송
+
 EEA-M은 연결된 PIR 센서를 통해 객체가 감지되면 자동으로 전등을 켜고 그 정보를 EEA-RTU로 전송
+
 led 전구 : EEA-M과 연결되어 AC220V가 입력되면 불이 켜짐
 
 ## eea-m
