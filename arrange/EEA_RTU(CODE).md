@@ -12,3 +12,50 @@
 - REGISTERS는 레지스터 주소
 - LORA STATUS는 상태코드 lora통신 함수 실행 후 결과 코드로 사용
 ***
+## Comprotocol.h
+| 함수 이름                                                                       | 설명                              |
+| --------------------------------------------------------------------------- | ------------------------------- |
+| `uint8_t uchGetBLID(void);`                                                 | 장치의 고유 ID (예: Board ID)를 반환     |
+| `void vUpdateTable(uint8_t _uchCommand, uint8_t _uchID, uint8_t _uchData);` | 테이블에 특정 명령에 따라 ID와 데이터로 업데이트 수행 |
+| `void vSetTimerTable(void);`                                                | 타이머 관련 테이블을 설정 (예: 시간 동기화용)     |
+
+### 패킷생성 및 처리 관련
+| 함수 이름                                                                    | 설명                     |
+| ------------------------------------------------------------------------ | ---------------------- |
+| `bool bIsCommand(uint8_t _uchCommand);`                                  | 유효한 명령인지 검사            |
+| `uint8_t uchCalChecksum(uint8_t *uchpPacket, uint8_t _uchPacketLength);` | 주어진 패킷에 대한 체크섬 계산      |
+| `uint8_t uchMakePirPacket(...);`                                         | PIR 관련 명령을 담은 패킷 생성    |
+| `uint8_t uchTransLoRaPacket(...);`                                       | LoRa용 전송 패킷 생성 및 전송    |
+| `uint8_t uchTransUartPacket(...);`                                       | UART용 전송 패킷 생성 및 전송    |
+| `void vMakeTablePacket(...);`                                            | 전체 테이블 정보 포함 패킷 구성     |
+| `void vMakePacket(...);`                                                 | 단일 명령 패킷 생성 (기본 송신 패킷) |
+
+### 수신처리
+| 함수 이름                           | 설명                      |
+| ------------------------------- | ----------------------- |
+| `void vCheckRxLoRaPacket(...);` | 수신된 LoRa 패킷을 확인 및 분기 처리 |
+| `void vCheckRxUartPacket(...);` | 수신된 UART 패킷을 확인 및 분기 처리 |
+| `void vProcLoRaPacket(...);`    | LoRa 패킷을 실제로 파싱하고 동작 수행 |
+| `void vProcUartPacket(...);`    | UART 패킷을 실제로 파싱하고 동작 수행 |
+
+### 재전송 및 응답 관리
+| 함수 이름                               | 설명                           |
+| ----------------------------------- | ---------------------------- |
+| `void vCheckRspTable(...);`         | 응답 테이블을 확인하여 재전송 여부 판단       |
+| `void vCompareSaveId(...);`         | 응답 패킷에서 ID를 비교하여 저장 및 정합성 검사 |
+| `int iGetCmdFlag(void);`            | 현재 명령 수행 여부 상태 반환            |
+| `int iGetResendCount(void);`        | 재전송 횟수 확인                    |
+| `void vSetResendCount(int _value);` | 재전송 횟수 설정                    |
+
+### PIR ID 관리
+| 함수 이름                                                       | 설명                          |
+| ----------------------------------------------------------- | --------------------------- |
+| `int iCheckPirIdBit(uint8_t *_uchPirList);`                 | PIR ID 목록에서 설정된 ID 비트 확인    |
+| `void vCheckPirId(uint8_t _uchPirId, uint8_t *uchCheckId);` | 단일 PIR ID 체크 후 결과 저장        |
+| `void vUpdatePirId(void);`                                  | 수신된 PIR ID를 기반으로 전체 ID 업데이트 |
+| `void vInitPirId(void);`                                    | PIR ID 시스템 초기화              |
+
+### 전체테이블 정보 송신
+| 함수 이름                                                                         | 설명                    |
+| ----------------------------------------------------------------------------- | --------------------- |
+| `void vSendTxTablePacket(UART_HandleTypeDef *huart, DeviceInfo *SetDevices);` | UART를 통해 전체 테이블 정보 송신 |
