@@ -59,3 +59,24 @@
 | 함수 이름                                                                         | 설명                    |
 | ----------------------------------------------------------------------------- | --------------------- |
 | `void vSendTxTablePacket(UART_HandleTypeDef *huart, DeviceInfo *SetDevices);` | UART를 통해 전체 테이블 정보 송신 |
+***
+## main.c
+```c
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    if(GPIO_Pin == DIO0_Pin)
+    {
+        uchPacketSize = LoRa_receive(&RtuLoRa, &RxLoRaData, MAX_PACKET_SIZE);
+        vTaskNotifyGiveFromISR(LoraTaskHandle, &xHigherPriorityTaskWoken);
+
+        // ISR 내에서 더 높은 우선순위 태스크가 준비되었다면 즉시 전환
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+}
+```
+
+```c
+// task : 작업단위, RTOS : 프로세스 스케쥴링
+```
