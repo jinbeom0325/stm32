@@ -49,8 +49,21 @@ ISR이나 다른 Task에서도 호출 가능.
 매우 빠르고 메모리 효율적. 단일 Task에만 해당.
 로라가 이 방식인 이유가 단일 이벤트 rtu쪽에만 주는거 빠른게 목적
 ***
+### 추가설명
 FreeRTOS가 systick을 쓰므로  HAL은 TIM6을 Tick Timer로 
 자신의 task가 끝나면 block상태이고 모든 task가 끝나면 FreeRTOS는 **Idle Task**를 실행 (저전력모드)
+***
+
+```c
+Index:   0   1   2   3   4   5   6   7   8   9
+
+         ↑                               ↑
+         
+       시작                            끝 인덱스
+```
+uchPacketBuffer[5 + _uchDataLen + 1] = uchCalChecksum(uchPacketBuffer, LORA_PACKET_LEN - 2); 
+
+-2한 이유는 체크섬은 ETX랑 본인(체크섬)은 빼고 계산해야함
 
 
 
