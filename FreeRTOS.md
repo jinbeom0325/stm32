@@ -16,8 +16,34 @@
 
 ```c
 if (osSemaphoreWait(ProcessSPHandle, osWaitForever) == osOK) //대기하다가 osSemaphoreWait로  세마포어 획득
+osSemaphoreRelease(ProcessSPHandle); //세마포어 반환  (코드 마지막)
 ulTaskNotifyTake(pdTRUE, portMAX_DELAY); //다른 task가 깨울때까지 대기 (give로깨움)
-xTaskNotifyGive(processTaskHandle); //프로세스 task깨우기
-osSemaphoreRelease(ProcessSPHandle); //세마포어 반환 
+xTaskNotifyGive(processTaskHandle); //프로세스 task깨우기 (코드 마지막쯤) 
+
 ```
 세마포어는 공유 자원에 여러 Task가 동시에 접근하지 않도록 제어하는 장치
+| 상황                           | 추천 방식                       |
+| ---------------------------- | --------------------------- |
+| 단일 Task 간 동기화 (ISR → Task 등) | `Task Notification`         |
+| 여러 Task 간 동기화 필요             | `Semaphore`                 |
+| ISR과 Task 간 자원 보호가 필요한 경우    | `Binary/Counting Semaphore` |
+| 빠르고 lightweight한 통신          | `Task Notification`         |
+***
+### Semaphore 방식 (RTOS 자원 동기화)
+- osSemaphoreWait(ProcessSPHandle, osWaitForever)
+  → 이 Task는 세마포어가 주어질 때까지 대기함.
+
+- osSemaphoreRelease(ProcessSPHandle)
+→ 이걸 호출하면, 세마포어를 기다리던 Task가 깨서 작업을 시작함.
+
+ISR이나 다른 Task에서도 호출 가능.
+***
+### Task Notification 방식 (경량화된 Task 간 신호)
+- ulTaskNotifyTake(pdTRUE, portMAX_DELAY)
+  → 이 Task는 알림이 올 때까지 무기한 대기함.
+
+- xTaskNotifyGive(processTaskHandle)
+  → 해당 Task에 알림(Notification) 을 보내서 깨어나게 함.
+
+매우 빠르고 메모리 효율적. 단일 Task에만 해당.
+***
