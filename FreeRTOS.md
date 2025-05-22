@@ -35,6 +35,7 @@ xTaskNotifyGive(processTaskHandle); //프로세스 task깨우기 (코드 마지�
 
 - osSemaphoreRelease(ProcessSPHandle)
 → 이걸 호출하면, 세마포어를 기다리던 Task가 깨서 작업을 시작함.
+uart는 양방향이라 
 
 ISR이나 다른 Task에서도 호출 가능.
 ***
@@ -46,4 +47,10 @@ ISR이나 다른 Task에서도 호출 가능.
   → 해당 Task에 알림(Notification) 을 보내서 깨어나게 함.
 
 매우 빠르고 메모리 효율적. 단일 Task에만 해당.
+로라가 이 방식인 이유가 단일 이벤트 rtu쪽에만 주는거 빠른게 목적
 ***
+FreeRTOS가 systick을 쓰므로  HAL은 TIM6을 Tick Timer로 
+자신의 task가 끝나면 block상태이고 모든 task가 끝나면 FreeRTOS는 **Idle Task**를 실행 (저전력모드)
+
+
+
