@@ -55,6 +55,7 @@ FreeRTOS가 systick을 쓰므로  HAL은 TIM6을 Tick Timer로
 ***
 
 ```c
+//꺼내는 위치front부터 저장위치rear 전까지 
 Index:   0   1   2   3   4   5   6   7   8   9
 
          ↑                               ↑
